@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Fetch API</title>
+	<!-- Bootstrap CSS (Version 5.3.0) fundamental styling and components  -->
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+
+	<!-- Bootstrap Icons Library (Version 1.11.1) -->
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+
+	<!-- Prism Code Highlighter - Light Theme (Version 1.23.0) -->
+	<!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.23.0/themes/prism.min.css"> -->
+
+	<!-- Prism Code Highlighter - Dark Theme (Version 1.0.0) -->
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prism-theme-one-dark@1.0.0/prism-onedark.min.css">
+
+	<!-- Local CSS File (style.css) -->
+	<link rel="stylesheet" href="style.css">
+
+</head>
+
+<body>
+	<header>
+		<nav class="navbar  p-2 nav-background mb-1">
+			<div class="container-fluid nav justify-content-center">
+				<p class="h1 text-white">Fetch API</p>
+			</div>
+		</nav>
+		<button type="button" class="btn btn-link position-fixed bottom-0 end-0 btn-lg px-1"
+			style="z-index: 100; filter: drop-shadow(1px 1px 1px #000000);">
+			<a href="#top"><i class="bi bi-airplane-engines-fill plane-color" style="color: darkorange"></i></a>
+		</button>
+	</header>
+
+	<main>
+		<div class="container border rounded border-warning mb-2" id="">
+			<p><b><code>The fetch()</code></b> function in JavaScript is used to make network requests, typically to fetch
+				resources from a specified URL. It's commonly used for making HTTP requests such as <b>GET</b>, <b>POST</b>,
+				<b>PUT</b>, <b>DELETE</b>, etc., and it returns a <b>Promise</b>.
+			</p>
+			<p class="h4 text-danger">Covid Records from 30<sup>th</sup> Jan, 2020 To 12<sup>th</sup> Aug, 2021 in India</p>
+			<div class="container bg-secondary bg-opacity-25 p-1 rounded mb-3 position-relative">
+				<p class="h5">Select a Date to get Covid data:</p>
+				<button id="copy-button-1" class="btn btn-link position-absolute top-0 end-0 p-0 mt-1 me-3"
+					onclick="copyToClipboard(1)">
+					<i class="bi bi-clipboard"></i>
+				</button>
+				<pre class="rounded" style="max-height: 350px;" id="code-block-1"><code class="language-javascript">&lt;script&gt;
+document.getElementById('getDataButton').addEventListener('click', () =&gt; {
+  // Get the selected date from the input field
+  const selectedDate = document.getElementById('selectedDate').value;
+
+  // URL for the COVID-19 data
+  const apiUrl = 'https://data.covid19india.org/data.json';
+
+  // Fetch COVID-19 data
+  fetch(apiUrl)
+    .then(response =&gt; {
+      // Check if response is okay
+      if (!response.ok) {
+        throw new Error('Could not fetch data!');
+      }
+      return response.json();
+    })
+    .then((data) =&gt; {
+      let found = false;
+
+      // Loop through the data array to find the selected date
+      for (let i = 0; i &lt;= 564; i++) {
+        // If the date matches, display the COVID-19 information
+        if (data.cases_time_series[i].dateymd === selectedDate) {
+          document.getElementById('output-1').innerHTML = (
+            `Confirmed Cases: ${data.cases_time_series[i].dailyconfirmed} &lt;br&gt;
+            Deceased: ${data.cases_time_series[i].dailydeceased} &lt;br&gt;
+            Recovered: ${data.cases_time_series[i].dailyrecovered} &lt;br&gt;&lt;br&gt;
+            Total Confirmed: ${data.cases_time_series[i].totalconfirmed} &lt;br&gt;
+            Total Deceased: ${data.cases_time_series[i].totaldeceased} &lt;br&gt;
+            Total Recovered: ${data.cases_time_series[i].totalrecovered} &lt;br&gt;`
+          );
+
+          found = true; // Set flag to true if data is found
+          break; // Exit loop once data is found
+        }
+      }
+
+      // If no data is found for the selected date, display a message
+      if (!found) {
+        document.getElementById('output-1').innerHTML = ('No data available for the selected date!');
+      }
+    })
+    .catch(error =&gt; {
+      // Display an error message if there's an issue with fetching data
+      document.getElementById('output-1').innerHTML = ('Error:', error);
+    });
+});
+&lt;/script&gt;</code></pre>
+				<label for="selectedDate ">Select Date:</label>
+				<input type="date" id="selectedDate" class="mt-0">
+				<button class="btn btn-warning fw-bold btnwidth  " id="getDataButton">Get Data</button>
+
+				<div class="container bg-light rounded mt-1 ">
+					<p id="output-1"></p>
+					<!-- <p id="output-2"></p> -->
+				</div>
+			</div>
+
+
+
+
+
+
+
+
+
+
+
+
+			<div class="container bg-secondary bg-opacity-25 p-1 rounded mb-1 position-relative">
+				<p class="h5">Select state to get Covid data:</p>
+				<button id="copy-button-2" class="btn btn-link position-absolute top-0 end-0 p-0 mt-1 me-3"
+					onclick="copyToClipboard(2)">
+					<i class="bi bi-clipboard"></i>
+				</button>
+				<pre class="rounded" style="max-height: 350px;"
+					id="code-block-2"><code class="language-javascript">&lt;script&gt;
+document.getElementById('getDataStateButton').addEventListener('click', () =&gt; {
+	// Get the selected state from the input field
+	const selectedstate = document.getElementById('selectedstate').value;
+
+	// URL for the COVID-19 data
+	const apiUrl = 'https://data.covid19india.org/data.json';
+
+	// Fetch COVID-19 data
+	fetch(apiUrl)
+		.then(response =&gt; {
+			// Check if response is okay
+			if (!response.ok) {
+				throw new Error('Could not fetch data!');
+			}
+			return response.json();
+		})
+		.then((data) =&gt; {
+			// Loop through the data to find the selected state
+			for (let i = 1; i &lt;= 37; i++) {
+				if (data.statewise[i].state === selectedstate) {
+					// Display COVID-19 information for the selected state
+					document.getElementById('output-2').innerHTML = (
+						`Active Cases: ${data.statewise[i].active} &lt;br&gt;
+            Confirmed: ${data.statewise[i].confirmed} &lt;br&gt;
+            Deaths: ${data.statewise[i].deaths} &lt;br&gt;
+            Recovered: ${data.statewise[i].recovered} &lt;br&gt;
+            Last Updated: ${data.statewise[i].lastupdatedtime} &lt;br&gt;`
+					);
+				}
+			}
+		})
+		.catch((error) =&gt; {
+			// Handle errors if any
+			console.log(`Error: ${error}`);
+		});
+});
+&lt;/script&gt;</code></pre>
+				<label for="selectedstate ">Select State:</label>
+				<input list="states" id="selectedstate">
+				<datalist id="states">
+					<option value="Andaman and Nicobar Islands">
+					<option value="Andhra Pradesh">
+					<option value="Arunachal Pradesh">
+					<option value="Assam">
+					<option value="Bihar">
+					<option value="Chandigarh">
+					<option value="Chhattisgarh">
+					<option value="Dadra and Nagar Haveli and Daman and Diu">
+					<option value="Delhi">
+					<option value="Goa">
+					<option value="Gujarat">
+					<option value="Haryana">
+					<option value="Himachal Pradesh">
+					<option value="Jammu and Kashmir">
+					<option value="Jharkhand">
+					<option value="Karnataka">
+					<option value="Kerala">
+					<option value="Ladakh">
+					<option value="Lakshadweep">
+					<option value="Madhya Pradesh">
+					<option value="Maharashtra">
+					<option value="Manipur">
+					<option value="Meghalaya">
+					<option value="Mizoram">
+					<option value="Nagaland">
+					<option value="Odisha">
+					<option value="Puducherry">
+					<option value="Punjab">
+					<option value="Rajasthan">
+					<option value="Sikkim">
+					<option value="State Unassigned">
+					<option value="Tamil Nadu">
+					<option value="Telangana">
+					<option value="Tripura">
+					<option value="Uttar Pradesh">
+					<option value="Uttarakhand">
+					<option value="West Bengal">
+				</datalist>
+				<button class="btn btn-warning fw-bold btnwidth" id="getDataStateButton">Get Data</button>
+
+				<div class="container bg-light rounded mt-1 ">
+					<p id="output-2"></p>
+					<!-- <p id="output-2"></p> -->
+				</div>
+			</div>
+		</div>
+
+	</main>
+
+
+
+
+
+	<footer>
+		<script src="script.js"></script>
+
+		<!-- Include Prism.js library -->
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.23.0/prism.min.js"></script>
+
+		<!-- Include Prism.js language specific library (for JavaScript) -->
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.23.0/components/prism-javascript.min.js"></script>
+
+		<!-- Apply Prism to highlight all code blocks on the page -->
+		<script>Prism.highlightAll();</script>
+	</footer>
+</body>
+
+</html>
